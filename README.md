@@ -1,6 +1,6 @@
 ##VersaLink BMP183 Barometric Pressure sensor device driver
 
-This driver is designed to work on any Linux platform, and has been thouroghly tested on BeagleBone Black
+This device driver is specifically designed to be used with the Agilatech VersaLink IOT System.
 
 ###Install
 ```

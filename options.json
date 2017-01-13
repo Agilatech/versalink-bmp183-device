@@ -1,0 +1,8 @@
+{
+    "streamPeriod": 10000,
+    "devicePoll": 1000,
+    "deltaPercent": 5,
+    "bus":"/dev/spidev1.0",
+    "altitude":0,
+    "mode":3
+}

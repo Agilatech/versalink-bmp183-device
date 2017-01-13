@@ -2,7 +2,7 @@
   "name": "versalink-bmp183-device",
   "version": "0.8.0",
   "description": "BMP183 barometric pressure device driver for use in the Agilatech VersaLink system",
-  "main": "bmp183.js",
+  "main": "bmp183-scout.js",
   "directories": {
     "example": "example"
   },
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/Agilatech/versalink-bmp183-device#readme",
   "dependencies": {
     "versalink-device": "*",
+    "zetta-scout": "*",
     "@agilatech/bmp183": "*"
   }
 }
