@@ -14,12 +14,12 @@ const bmp183 = require('@agilatech/versalink-bmp183-device');
 const versalink = require('@agilatech/versalink-server');
 
 versalink()
-.use(bmp183, [options])  // where [options] define operational paramters -- omit to accept defaults
+.use(bmp183, [config])  // where [config] define operational paramters -- omit to accept defaults
 .listen(<port number>)   // where <port number> is the port on which the zetta server should listen
 ```
 
-####options
-_options_ is an object which contains key/value pairs used for driver configuration.
+####config
+_config_ is an object which contains key/value pairs used for driver configuration.
 
 ```
 "streamPeriod":<period>
@@ -44,17 +44,17 @@ The operating mode of the sensor, where 0 = low power, 1 = standard, 2 = high re
 _deltaPercent_ is the percentage of the current numerical data range which a polled data value must exceed to be considred "new". As an example, consider a temperature range of 100, a deltaPercent of 2, and the current temerature of 34.  In such a case, a device poll must produce a value of 36 or greater, or 32 or less than in order to be stored as a current value.  35 or 33 will be ignored.  deltaPercent may be any value greater than 0 or less than 100, and may be fractional. If not defined, the default is 5 percent.
 
 ####Defining the value ranges
-Value ranges may also be defined in the options, and are closely related to deltaPercent.  If not defined, the software will keep track of minimum and maximum values and derive the range from them.  However, that takes time for the software to "learn" the ranges, so they can be defined in the options object:
+Value ranges may also be defined in the config, and are closely related to deltaPercent.  If not defined, the software will keep track of minimum and maximum values and derive the range from them.  However, that takes time for the software to "learn" the ranges, so they can be defined in the config object:
 ```
 "pressure_range":<numeric range>
 "temperature_range":<numeric range>
 ```
 where the &lt;numeric range&gt; is a number representing the absolute range of the value.
 
-####options example
-Here is an example of an options varible which stream values every 10 seconds, polls the device every second, requires an 8% delta change to register a new monitored value, and defines valid ranges on all parameters:
+####config example
+Here is an example of an config varible which stream values every 10 seconds, polls the device every second, requires an 8% delta change to register a new monitored value, and defines valid ranges on all parameters:
 ```
-const options = {
+const config = {
     "streamPeriod":10000, 
     "devicePoll":1000, 
     "deltaPercent":8,
@@ -66,7 +66,7 @@ const options = {
 
   
 ####Default values
-If not specified in the options object, the program uses the following default values:
+If not specified in the config object, the program uses the following default values:
 * _streamPeriod_ : 10000 (10,000ms or 10 seconds)
 * _devicePoll_ : 1000 (1,000ms or 1 second)
 * _deltaPercent_ : 5 (polled values must exceed the range by &plusmn; 5%)
@@ -86,7 +86,7 @@ const sensor = require('versalink-bmp183-device');
 zetta().use(sensor).listen(1107);
 ```
 
-To easily specify some options, simply supply them in an object in the use statement like this:
+To easily specify some config options, simply supply them in an object in the use statement like this:
 ```
 zetta().use(sensor, { "bus":"/dev/spidev0.0", "devicePoll":8000, "streamPeriod":15000, "altitude":900 });
 ```

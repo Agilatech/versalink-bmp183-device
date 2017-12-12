@@ -1,47 +1,51 @@
-
-const options = require('./options');
+const config = require('./config');
 
 const Scout = require('zetta-scout');
-const bmp183 = require('./bmp183');
-const util = require('util');
+const Bmp183 = require('./bmp183');
 
-const Bmp183Scout = module.exports = function(opts) {
-    
-  // see if any of the options were overridden in the server
+module.exports = class Bmp183Scout extends Scout {
 
-  if (typeof opts !== 'undefined') {
+  constructor(opts) {
 
-    // copy all options defined in the server
-    for (const key in opts) {
-      if (typeof opts[key] !== 'undefined') {
-        options[key] = opts[key];
+    super();
+
+    if (typeof opts !== 'undefined') {
+      // copy all config options defined in the server
+      for (const key in opts) {
+        if (typeof opts[key] !== 'undefined') {
+          config[key] = opts[key];
+        }
       }
     }
+
+    if (config.name === undefined) { config.name = "BMP183" }
+    this.name = config.name;
+
+    this.bmp183 = new Bmp183(config);
+
   }
 
-  Scout.call(this);
-};
-
-util.inherits(Bmp183Scout, Scout);
-
-Bmp183Scout.prototype.init = function(next) {
-
-  const self = this;
-
-  const Bmp183 = new bmp183(options);
-
-  const query = this.server.where({name: 'BMP183'});
+  init(next) {
+    const query = this.server.where({name: this.name});
   
-  this.server.find(query, function(err, results) {
-    if (results[0]) {
-      self.provision(results[0], Bmp183, options);
-      self.server.info('Provisioned BMP183');
-    } else {
-      self.discover(Bmp183, options);
-      self.server.info('Discovered new device BMP183');
-    }
-  });
+    const self = this;
 
-  next();
+    this.server.find(query, function(err, results) {
+      if (!err) {
+        if (results[0]) {
+          self.provision(results[0], self.bmp183);
+          self.server.info('Provisioned known device ' + self.name);
+        } else {
+          self.discover(self.bmp183);
+          self.server.info('Discovered new device ' + self.name);
+        }
+      }
+      else {
+        self.server.error(err);
+      }
+    });
 
-};
+    next();
+  }
+
+}
