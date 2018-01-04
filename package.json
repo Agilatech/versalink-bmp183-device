@@ -3,28 +3,19 @@
   "version": "0.10.0",
   "description": "BMP183 barometric pressure device driver for use in the Agilatech VersaLink system",
   "main": "bmp183-scout.js",
-  "directories": {
-    "example": "example"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "ssh://scott@209.200.216.6:22125/volume1/git_repos/versalink-bmp183-device"
+    "url": "git+https://github.com/Agilatech/versalink-bmp183-device.git"
   },
   "keywords": [
     "sensor",
     "Barometric Pressure",
     "Temperature",
-    "beaglebone",
-    "raspberry pi"
+    "BMP183"
   ],
   "author": "Agilatech <scott@agilatech.com> (http://agilatech.com)",
-  "license": "SEE LICENSE in LICENSE",
+  "license": "MIT",
   "dependencies": {
-    "@agilatech/versalink-device": "*",
-    "zetta-scout": "*",
     "@agilatech/bmp183": "*"
   }
 }
